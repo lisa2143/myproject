@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">
+{% if user.authenticated %}
+  <a href="{% url 'create' %}">新規投稿</a>
+  <a href="{% url 'logout' %}">ログアウト</a>
+{% else %}
+  <a href="{% url 'signup' %}">ユーザー登録</a>
+  <a href="{% url 'login' %}">ログイン</a>
+{% endif %}
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  {% for item in object_list %}
+  <div>
+    <p><a href="{% url 'detail' item.pk %}"><img src='{{item.images.url}}' width=300></a></p>
+    <span>{{ item.title }}</span>
+    <span><a href="#"><img src="image/goodmark.png"></a>{{ item.good }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
