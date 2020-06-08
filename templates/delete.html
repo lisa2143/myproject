@@ -21,12 +21,11 @@
 
 {% block content %}
 <div class="container">
-  {% for item in object_list %}
-  <div class="item">
-    <span><a href="{% url 'detail' item.pk %}"><img class='border_radius' src='{{item.images.url}}' width=257></a></span><br>
-    <span class="item-title">{{ item.title }}</span>
-    <span><a href="{% url 'good' item.pk %}"><img src="{% static 'images/goodmark.jpg' %}" width=15 height=15></a>{{ item.good }}</span>
+  <div>
+    <p>'{{ object.title }}'を削除しますか？</p>
+    <form action='' method='post'>{% csrf_token %}
+      <button type='submit' class='submit delete'>削除する</button>
+    </form>
   </div>
-  {% endfor %}
 </div>
-{% endblock content %}
+{% endblock content%}
