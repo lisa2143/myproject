@@ -2,24 +2,40 @@
 
 .header {
   background-color: #9BF9CC;
+  display: flex;
+  height: 40px;
 }
 
+.book {
+  color: #666666;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  display: flex;
+  padding-left: 550px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 .text1 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .text2 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  padding-left: 1000px;
+  padding-left: 150px;
+  display: flex;
+  align-items: center;
 }
 
 .text3 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  padding-left: 100px;
+  padding-left: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .container {

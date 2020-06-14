@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.views import generic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from .models import BoardModel
+from .models import BoardModel, Book
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 # Create your views here.
 def signupfunc(request):
@@ -32,6 +34,17 @@ def loginfunc(request):
             return redirect('login')
     return render(request, 'login.html')
 
+class BookList(ListView):
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+
+        if q_word:
+            object_list = Book.objects.filter(
+                Q(title__icontains=q_word) | Q(content__icontains=q_word))
+        else:
+            object_list = Book.objects.all()
+        return object_list
+
 @login_required
 def listfunc(request):
     object_list = BoardModel.objects.all()
@@ -42,7 +55,13 @@ def logoutfunc(request):
     return redirect('login')
 
 def detailfunc(request, pk):
-    object = BoardModel.objects.get(pk=pk)
+    try:
+        object = BoardModel.objects.get(pk=pk)
+    except models.BoardModel.DoesNotExist:
+        raise Http404
+    if request.method == "POST":
+        BoardModel.Comment.objects.create(to=BoardModel, text=request.POST["text"],object=object)
+    context ={'object':object}
     return render(request, 'detail.html', {'object':object})
 
 def goodfunc(request, pk):
@@ -57,7 +76,7 @@ class BoardCreate(CreateView):
     fields = ('title', 'content', 'author', 'images')
     success_url = reverse_lazy('list')
 
-class BoardUpdate(UpdateView):
+class UpdateView(generic.edit.UpdateView):
     template_name = 'create.html'
     model = BoardModel
     fields = ('title', 'content', 'author', 'images')

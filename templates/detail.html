@@ -8,13 +8,13 @@
 {% block header %}
 <div class="header">
 {% if user.is_authenticated %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
-  <a class="text2"　href="{% url 'create' %}">新規投稿</a>
-  <a class="text3"　href="{% url 'logout' %}">ログアウト</a>
+  <a href="{% url 'list' %}"　class="text1">HOME</a>
+  <a href="{% url 'create' %}"　class="text2">新規投稿</a>
+  <a href="{% url 'logout' %}"　class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
-  <a class="text2"　href="{% url 'signup' %}">ユーザー登録</a>
-  <a class="text3"　href="{% url 'login' %}">ログイン</a>
+  <a href="{% url 'list' %}"　class="text1">HOME</a>
+  <a href="{% url 'signup' %}"　class="text2">ユーザー登録</a>
+  <a href="{% url 'login' %}"　class="text3">ログイン</a>
 {% endif %}
 </div>
 {% endblock header %}
@@ -25,9 +25,23 @@
     <p><img src='{{ object.images.url }}' width=300 ></p>
     <p>タイトル：{{ object.title }}</p>
     <p>投稿者：{{ object.author }}</p>
-    <p>コメント：{{ object.content }}</p>
+    <p>内容：{{ object.content }}</p>
     <p><a href="{% url 'good' object.pk %}"><img src="{% static 'images/goodmark.jpg' %}" width=15 height=15></a>：{{ object.good }}</p>
-    {% if request.username.id == object.author.id %}
+
+    <form action="" method="POST">
+        <p><label for="com">コメント</label></p>
+        {% csrf_token %}
+        <textarea name="text" id="com" cols="30" rows="10"></textarea><br>
+        <button type="submit">投稿</button>
+    </form>
+
+    {% for comment in article.comments.all %}
+        <p>{{ comment.text }}<br><small>{{ comment.posted_at }}</small></p>
+    {% empty %}
+    <p>コメントはありません</p>
+    {% endfor %}
+
+    {% if request.user.id == object.author.id %}
       <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
       <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
     {% endif %}
