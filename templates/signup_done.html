@@ -2,10 +2,12 @@
 {% load static %}
 
 {% block customcss %}
-<link rel="stylesheet" type='text/css' href="{% static 'style.css'%}">
+<link rel="stylesheet" type='text/css' href="{% static 'home.css'%}">
 {% endblock customcss %}
 
 {% block content %}
-  <h1 class="h3 mb-3 font-weight-normal">登録完了しました！</h1>
-  <a href="{% url 'login' %}" class="mt-5 mb-3 text-muted">ログインページへ</a>
+<div style="text-align: center; font-family: 'M PLUS Rounded 1c', sans-serif">{% csrf_token %}
+  <p>登録完了しました！</p>
+  <a href="{% url 'login' %}">ログインページへ</a>
+</div>
 {% endblock content %}
