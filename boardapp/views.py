@@ -2,14 +2,25 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import BoardModel, Book, Comment, Reply
+from .models import BoardModel, Comment, Reply
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
+# from django.contrib import messages
 
 
 # Create your views here.
+def index(request):
+    object_list = BoardModel.objects.order_by('-id')
+    keyword = request.GET.get('keyword')
+    if keyword:
+        object_list = object_list.filter(
+                 Q(title__icontains=keyword) | Q(content__icontains=keyword)
+               )
+        # messages.success(request, '「{}」の検索結果'.format(keyword))
+    return render(request, 'list.html', {'object_list':object_list})
+
 def signupfunc(request):
     if request.method == 'POST':
         username2 = request.POST['username']
@@ -39,17 +50,17 @@ def listfunc(request):
     object_list = BoardModel.objects.all()
     return render(request, 'list.html', {'object_list':object_list})
 
-class BookList(ListView):
-    model = Book
-    def get_queryset(self):
-        q_word = self.request.GET.get('query')
-
-        if q_word:
-            object_list = Book.objects.filter(
-                Q(title__icontains=q_word) | Q(content__icontains=q_word))
-        else:
-            object_list = Book.objects.all()
-        return object_list
+# class BookList(ListView):
+#     model = Book
+#     def get_queryset(self):
+#         q_word = self.request.GET.get('query')
+#
+#         if q_word:
+#             object_list = Book.objects.filter(
+#                 Q(title__icontains=q_word) | Q(content__icontains=q_word))
+#         else:
+#             object_list = Book.objects.all()
+#         return object_list
 
 def detailfunc(request, pk):
     try:

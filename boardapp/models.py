@@ -10,13 +10,6 @@ class BoardModel(models.Model):
     images = models.ImageField(upload_to='')
     good = models.IntegerField(null=True, blank=True, default=0)
 
-class Book(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-
-    def __str__(self):
-        return self.title
-
 class Comment(models.Model):
     name = models.CharField(max_length=100,blank=True)
     text = models.TextField()

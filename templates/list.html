@@ -10,8 +10,12 @@
 {% if user.is_authenticated %}
   <a href="{% url 'list' %}" class="text1">HOME</a>
   <!-- <div　class="username">こんにちは、{{ user.get_username }}さん</div> -->
-  <form action="" method="get" class="book">
+  <!-- <form action="" method="get" class="book">
     <input name="query" value="{{ request.GET.query }}" type="text">
+    <button type="submit">検索する</button>
+  </form> -->
+  <form method="GET" action="{% url 'index' %}">
+    <input type="text" name="keyword">
     <button type="submit">検索する</button>
   </form>
   <a href="{% url 'create' %}" class="text2">新規投稿</a>
