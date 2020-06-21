@@ -3,22 +3,29 @@
 .header {
   background-color: #9BF9CC;
   display: flex;
+  flex-wrap:nowrap
   height: 40px;
 }
 
 .book {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  display: flex;
   padding-left: 550px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+.username {
+  color: #666666;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  padding-left: 40px;
+  align-items: center;
+}
+
 .text1 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 40px;
-  display: flex;
   align-items: center;
 }
 
@@ -26,7 +33,6 @@
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 150px;
-  display: flex;
   align-items: center;
 }
 
@@ -34,7 +40,6 @@
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 50px;
-  display: flex;
   align-items: center;
 }
 

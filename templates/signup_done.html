@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block customcss %}
+<link rel="stylesheet" type='text/css' href="{% static 'style.css'%}">
+{% endblock customcss %}
+
+{% block content %}
+  <h1 class="h3 mb-3 font-weight-normal">登録完了しました！</h1>
+  <a href="{% url 'login' %}" class="mt-5 mb-3 text-muted">ログインページへ</a>
+{% endblock content %}

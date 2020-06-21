@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect
-from .models import BoardModel, Book
+from .models import BoardModel, Book, Comment, Reply
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
+
 
 # Create your views here.
 def signupfunc(request):
@@ -19,8 +19,9 @@ def signupfunc(request):
             return render(request, 'signup.html', {'error':'このユーザーは登録されています'})
         except:
             user = User.objects.create_user(username2, '', password2)
-            return render(request, 'signup.html')
+            return render(request, 'signup_done.html')
     return render(request, 'signup.html')
+
 
 def loginfunc(request):
     if request.method == 'POST':
@@ -34,7 +35,12 @@ def loginfunc(request):
             return redirect('login')
     return render(request, 'login.html')
 
+def listfunc(request):
+    object_list = BoardModel.objects.all()
+    return render(request, 'list.html', {'object_list':object_list})
+
 class BookList(ListView):
+    model = Book
     def get_queryset(self):
         q_word = self.request.GET.get('query')
 
@@ -45,15 +51,6 @@ class BookList(ListView):
             object_list = Book.objects.all()
         return object_list
 
-@login_required
-def listfunc(request):
-    object_list = BoardModel.objects.all()
-    return render(request, 'list.html', {'object_list':object_list})
-
-def logoutfunc(request):
-    logout(request)
-    return redirect('login')
-
 def detailfunc(request, pk):
     try:
         object = BoardModel.objects.get(pk=pk)
@@ -63,6 +60,12 @@ def detailfunc(request, pk):
         BoardModel.Comment.objects.create(to=BoardModel, text=request.POST["text"],object=object)
     context ={'object':object}
     return render(request, 'detail.html', {'object':object})
+
+
+@login_required
+def logoutfunc(request):
+    logout(request)
+    return redirect('login')
 
 def goodfunc(request, pk):
     post = BoardModel.objects.get(pk=pk)
@@ -76,11 +79,18 @@ class BoardCreate(CreateView):
     fields = ('title', 'content', 'author', 'images')
     success_url = reverse_lazy('list')
 
-class UpdateView(generic.edit.UpdateView):
+class BoardUpdate(UpdateView):
     template_name = 'create.html'
     model = BoardModel
     fields = ('title', 'content', 'author', 'images')
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('detail')
+
+    def get_form(self):
+        form = super(BoardUpdate, self).get_form()
+        form.fields['title'].object = 'タイトル'
+        form.fields['content'].object = '内容'
+        form.fields['images'].object = '画像'
+        return form
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'

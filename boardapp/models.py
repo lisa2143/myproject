@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -17,8 +18,17 @@ class Book(models.Model):
         return self.title
 
 class Comment(models.Model):
+    name = models.CharField(max_length=100,blank=True)
     text = models.TextField()
-    posted_at = models.DateTimeField(auto_now_add=True)
-    article = models.ForeignKey(to=BoardModel, related_name='comments', on_delete=models.CASCADE)
+    post = models.ForeignKey(BoardModel,on_delete=models.CASCADE)
+    created_date = models.DateTimeField(default=timezone.now)
+
+class Reply(models.Model):
+    name = models.CharField(max_length=100,blank=True)
+    text = models.TextField()
+    target = models.ForeignKey(Comment,on_delete=models.CASCADE)
+    is_publoc = models.BooleanField(default=True)
+    created_date = models.DateTimeField(default=timezone.now)
+
     def __str__(self):
-        return self.text
+        return self.name

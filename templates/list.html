@@ -9,6 +9,7 @@
 <div class="header">
 {% if user.is_authenticated %}
   <a href="{% url 'list' %}" class="text1">HOME</a>
+  <!-- <div　class="username">こんにちは、{{ user.get_username }}さん</div> -->
   <form action="" method="get" class="book">
     <input name="query" value="{{ request.GET.query }}" type="text">
     <button type="submit">検索する</button>
