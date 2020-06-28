@@ -101,7 +101,7 @@ class BoardDelete(DeleteView):
 class CommentView(CreateView):
     model = Comment
     fields = ('name', 'text')
-    template_name = 'Django_exa/TaskProject/templates/comment_form.html'
+    template_name = 'detail.html'
 
     def form_valid(self, form):
         post_pk = self.kwargs['pk']
@@ -119,7 +119,7 @@ class CommentView(CreateView):
 class ReplyView(CreateView):
     model = Reply
     fields = ('name', 'text')
-    template_name = 'Django_exa/TaskProject/templates/comment_form.html'
+    template_name = 'detail.html'
 
     def form_valid(self, form):
         comment_pk = self.kwargs['pk']

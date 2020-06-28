@@ -13,7 +13,7 @@ class BoardModel(models.Model):
 class Comment(models.Model):
     name = models.CharField(max_length=100,blank=True)
     text = models.TextField()
-    post = models.ForeignKey(BoardModel,on_delete=models.CASCADE)
+    post = models.ForeignKey(BoardModel, null=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
 
 class Reply(models.Model):

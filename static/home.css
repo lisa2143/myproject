@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c');
 
-header {
+.header {
   background-color: #9BF9CC;
   display: flex;
   flex-wrap: nowrap;
