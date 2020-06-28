@@ -50,27 +50,17 @@ def listfunc(request):
     object_list = BoardModel.objects.all()
     return render(request, 'list.html', {'object_list':object_list})
 
-# class BookList(ListView):
-#     model = Book
-#     def get_queryset(self):
-#         q_word = self.request.GET.get('query')
-#
-#         if q_word:
-#             object_list = Book.objects.filter(
-#                 Q(title__icontains=q_word) | Q(content__icontains=q_word))
-#         else:
-#             object_list = Book.objects.all()
-#         return object_list
-
 def detailfunc(request, pk):
-    try:
-        object = BoardModel.objects.get(pk=pk)
-    except models.BoardModel.DoesNotExist:
-        raise Http404
-    if request.method == "POST":
-        BoardModel.Comment.objects.create(to=BoardModel, text=request.POST["text"],object=object)
-    context ={'object':object}
+    object = BoardModel.objects.get(pk=pk)
     return render(request, 'detail.html', {'object':object})
+    # try:
+    #     object = BoardModel.objects.get(pk=pk)
+    # except models.BoardModel.DoesNotExist:
+    #     raise Http404
+    # if request.method == "POST":
+    #     BoardModel.Comment.objects.create(to=BoardModel, text=request.POST["text"],object=object)
+    # context ={'object':object}
+    # return render(request, 'detail.html', {'object':object})
 
 
 @login_required
@@ -107,3 +97,38 @@ class BoardDelete(DeleteView):
     template_name = 'delete.html'
     model = BoardModel
     success_url = reverse_lazy('list')
+
+class CommentView(CreateView):
+    model = Comment
+    fields = ('name', 'text')
+    template_name = 'Django_exa/TaskProject/templates/comment_form.html'
+
+    def form_valid(self, form):
+        post_pk = self.kwargs['pk']
+        post = get_object_or_404(BoardModel, pk=post_pk)
+
+        comment = form.save(commit=False)
+        comment.target = post
+        comment.save()
+        # 記事の設定
+
+        return redirect('detail', pk=post_pk)
+        # 記事の詳細にリダイレクト
+
+
+class ReplyView(CreateView):
+    model = Reply
+    fields = ('name', 'text')
+    template_name = 'Django_exa/TaskProject/templates/comment_form.html'
+
+    def form_valid(self, form):
+        comment_pk = self.kwargs['pk']
+        comment = get_object_or_404(BoardModel, pk=comment_pk)
+
+        reply = form.save(commit=False)
+        reply.target = comment
+        reply.save()
+        # 記事の設定
+
+        return redirect('detail', pk=comment.target.pk)
+        # 記事の詳細にリダイレクト
