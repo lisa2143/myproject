@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
-# from django.contrib import messages
 
 
 # Create your views here.
@@ -18,7 +17,6 @@ def index(request):
         object_list = object_list.filter(
                  Q(title__icontains=keyword) | Q(content__icontains=keyword)
                )
-        # messages.success(request, '「{}」の検索結果'.format(keyword))
     return render(request, 'list.html', {'object_list':object_list})
 
 def signupfunc(request):
@@ -102,6 +100,7 @@ class CommentView(CreateView):
     model = Comment
     fields = ('name', 'text')
     template_name = 'detail.html'
+    comment = Comment.objects
 
     def form_valid(self, form):
         post_pk = self.kwargs['pk']
@@ -111,10 +110,8 @@ class CommentView(CreateView):
         comment.target = post
         comment.save()
         # 記事の設定
-
         return redirect('detail', pk=post_pk)
         # 記事の詳細にリダイレクト
-
 
 class ReplyView(CreateView):
     model = Reply
@@ -129,6 +126,5 @@ class ReplyView(CreateView):
         reply.target = comment
         reply.save()
         # 記事の設定
-
         return redirect('detail', pk=comment.target.pk)
         # 記事の詳細にリダイレクト

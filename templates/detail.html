@@ -37,18 +37,17 @@
         {% endif %}
     </form>
 
-    {% for comment in post.comment_set.all %}
+    <p>コメント一覧</p>
+    {% for comment in object.comment_set.all %}
         <p>名前:{{ comment.name }}</p><br>
         <p>テキスト:{{ comment.text }}</p><br>
-        <a href="{% url 'reply' item.pk %}">返信する</a><br>
-
+        <a href="{% url 'reply' object.pk %}">返信する</a><br>
         {% for reply in comment.reply_set.all %}
           <div style="margin-left:100px;">
              <p>名前:{{ reply.name }}</p><br>
              <p>テキスト:{{ reply.text }}</p><br>
           </div>
         {% endfor %}
-
         <hr>
     {% endfor %}
 

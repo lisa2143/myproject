@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, BoardCreate, BoardUpdate, BoardDelete
+from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, BoardCreate, BoardUpdate, BoardDelete, CommentView, ReplyView
 
 urlpatterns = [
     path('signup/', signupfunc, name='signup'),
@@ -13,6 +13,6 @@ urlpatterns = [
     path('update/<int:pk>', BoardUpdate.as_view(), name='update'),
     path('delete/<int:pk>', BoardDelete.as_view(), name='delete'),
     path('', views.index, name='index'),
-    # path('comment/<int:pk>/',CommentView.as_view(),name='comment'),
-    # path('reply/<int:pk>/',ReplyView.as_view(),name='reply'),
+    path('comment/<int:pk>/',CommentView.as_view(),name='comment'),
+    path('reply/<int:pk>/',ReplyView.as_view(),name='reply'),
 ]

@@ -5,3 +5,5 @@ from .models import Reply
 
 # Register your models here.
 admin.site.register(BoardModel)
+admin.site.register(Comment)
+admin.site.register(Reply)
