@@ -8,7 +8,6 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-
 # Create your views here.
 def index(request):
     object_list = BoardModel.objects.order_by('-id')
@@ -96,27 +95,26 @@ class BoardDelete(DeleteView):
     model = BoardModel
     success_url = reverse_lazy('list')
 
-class CommentView(CreateView):
+class CommentView(generic.CreateView):
     model = Comment
     fields = ('name', 'text')
-    template_name = 'detail.html'
-    comment = Comment.objects
+    template_name = 'comment.html'
 
     def form_valid(self, form):
-        post_pk = self.kwargs['pk']
-        post = get_object_or_404(BoardModel, pk=post_pk)
+        object_pk = self.kwargs['pk']
+        boardmodel = get_object_or_404(BoardModel, pk=boardmodel_pk)
 
         comment = form.save(commit=False)
         comment.target = post
         comment.save()
         # 記事の設定
-        return redirect('detail', pk=post_pk)
+        return redirect('detail', pk=object_pk)
         # 記事の詳細にリダイレクト
 
-class ReplyView(CreateView):
+class ReplyView(generic.CreateView):
     model = Reply
     fields = ('name', 'text')
-    template_name = 'detail.html'
+    template_name = 'comment.html'
 
     def form_valid(self, form):
         comment_pk = self.kwargs['pk']

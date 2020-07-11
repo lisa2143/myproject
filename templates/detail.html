@@ -28,24 +28,18 @@
     <p>内容：{{ object.content }}</p>
     <p><a href="{% url 'good' object.pk %}"><img src="{% static 'images/goodmark.jpg' %}" width=15 height=15></a>：{{ object.good }}</p>
 
-    <form action="" method="POST">
-        <p><label for="com">コメント</label></p>
-        {% csrf_token %}
-        <textarea name="text" id="com" cols="30" rows="10"></textarea><br>
-        {% if user.is_authenticated %}
-          <button type="submit">投稿</button>
-        {% endif %}
-    </form>
-
     <p>コメント一覧</p>
+    <a href="{% url 'comment' object.pk %}"><button type="submit">コメントする</button></a>
+    <hr>
+
     {% for comment in object.comment_set.all %}
-        <p>名前:{{ comment.name }}</p><br>
-        <p>テキスト:{{ comment.text }}</p><br>
+        <p>名前:{{ comment.name }}</p>
+        <p>テキスト:{{ comment.text }}</p>
         <a href="{% url 'reply' object.pk %}">返信する</a><br>
         {% for reply in comment.reply_set.all %}
           <div style="margin-left:100px;">
-             <p>名前:{{ reply.name }}</p><br>
-             <p>テキスト:{{ reply.text }}</p><br>
+             <p>名前:{{ reply.name }}</p>
+             <p>テキスト:{{ reply.text }}</p>
           </div>
         {% endfor %}
         <hr>
@@ -55,6 +49,7 @@
       <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
       <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
     {% endif %}
+
   </div>
 </div>
 {% endblock content %}

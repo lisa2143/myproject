@@ -13,14 +13,18 @@ class BoardModel(models.Model):
 class Comment(models.Model):
     name = models.CharField(max_length=100,blank=True)
     text = models.TextField()
-    post = models.ForeignKey(BoardModel, null=True, on_delete=models.CASCADE)
+    target = models.ForeignKey(BoardModel, null=True, on_delete=models.CASCADE)
+    is_public = models.BooleanField(default=True)
     created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.name
 
 class Reply(models.Model):
     name = models.CharField(max_length=100,blank=True)
     text = models.TextField()
     target = models.ForeignKey(Comment,on_delete=models.CASCADE)
-    is_publoc = models.BooleanField(default=True)
+    is_public = models.BooleanField(default=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
