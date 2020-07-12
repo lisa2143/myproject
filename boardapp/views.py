@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import BoardModel, Comment, Reply
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
+from .forms import CommentForm
 
 # Create your views here.
 def index(request):
@@ -71,31 +72,60 @@ def goodfunc(request, pk):
     post.save()
     return redirect('list')
 
+def updatefunc(request, pk):
+    if request.method == 'POST':
+        boardmodel = get_object_or_404(Boardmodel, pk=id)
+        CommentForm = CommentForm(request.POST, instance=content)
+        if commentForm.is_valid():
+            commentForm.save()
+
+    context = {
+        'content': 'Update content' + str(id),
+    }
+    return render(request, 'detail.html', context)
+
 class BoardCreate(CreateView):
     template_name = 'create.html'
     model = BoardModel
     fields = ('title', 'content', 'author', 'images')
     success_url = reverse_lazy('list')
 
-class BoardUpdate(UpdateView):
-    template_name = 'create.html'
-    model = BoardModel
-    fields = ('title', 'content', 'author', 'images')
-    success_url = reverse_lazy('detail')
 
-    def get_form(self):
-        form = super(BoardUpdate, self).get_form()
-        form.fields['title'].object = 'タイトル'
-        form.fields['content'].object = '内容'
-        form.fields['images'].object = '画像'
-        return form
+# class BoardUpdate(UpdateView):
+    # model = BoardModel
+    # fields = ('content', 'images')
+    # success_url = reverse_lazy('detail')
+    #
+    # def get_success_url(self):
+    #     return reverse('inputs:boardmodel', kwargs={'pk': self.object.id})
+    # model = BoardModel
+    # template_name = 'update.html'
+    # fields = '__all__'
+    # success_url = reverse_lazy('detail')
+    # model = BoardModel
+    # form_class = CommentForm
+    # template_name = 'update.html'
+    # success_url = reverse_lazy('detail')
+    # def form_valid(self, form):
+    #     result = super().form_valid(form)
+    #     messages.success(
+    #         self.request, '「{}」を更新しました'.format(form.instance))
+    #     return result
+    # def get_form(self):
+    #     form = super(BoardUpdate, self).get_form()
+    #     form.fields['content'].object = '内容'
+    #     form.fields['images'].object = '画像'
+    #     return form
+    #
+    # def get_success_url(self):
+    #     return reverse('detail', kwargs={'pk': self.object.id})
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
     model = BoardModel
     success_url = reverse_lazy('list')
 
-class CommentView(generic.CreateView):
+class CommentView(CreateView):
     model = Comment
     fields = ('name', 'text')
     template_name = 'comment.html'
@@ -112,7 +142,7 @@ class CommentView(generic.CreateView):
         return redirect('detail', pk=boardmodel_pk)
         # 記事の詳細にリダイレクト
 
-class ReplyView(generic.CreateView):
+class ReplyView(CreateView):
     model = Reply
     fields = ('name', 'text')
     template_name = 'comment.html'
