@@ -101,14 +101,15 @@ class CommentView(generic.CreateView):
     template_name = 'comment.html'
 
     def form_valid(self, form):
-        object_pk = self.kwargs['pk']
+        boardmodel_pk = self.kwargs['pk']
         boardmodel = get_object_or_404(BoardModel, pk=boardmodel_pk)
 
         comment = form.save(commit=False)
-        comment.target = post
+        comment.target = boardmodel
         comment.save()
+        print("OK")
         # 記事の設定
-        return redirect('detail', pk=object_pk)
+        return redirect('detail', pk=boardmodel_pk)
         # 記事の詳細にリダイレクト
 
 class ReplyView(generic.CreateView):
@@ -118,11 +119,11 @@ class ReplyView(generic.CreateView):
 
     def form_valid(self, form):
         comment_pk = self.kwargs['pk']
-        comment = get_object_or_404(BoardModel, pk=comment_pk)
+        comment = get_object_or_404(Comment, pk=comment_pk)
 
         reply = form.save(commit=False)
         reply.target = comment
         reply.save()
         # 記事の設定
-        return redirect('detail', pk=comment.target.pk)
+        return redirect('detail', pk=reply.target.pk)
         # 記事の詳細にリダイレクト
