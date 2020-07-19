@@ -12,7 +12,7 @@
   <a href="{% url 'create' %}" class="text2">新規投稿</a>
   <a href="{% url 'logout' %}" class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
+  <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'signup' %}" class="text2">ユーザー登録</a>
   <a href="{% url 'login' %}" class="text3">ログイン</a>
 {% endif %}
@@ -44,11 +44,9 @@
         {% endfor %}
         <hr>
     {% endfor %}
-
-    {% if request.username.id == object.author.id %}
-      <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
-      <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
-    {% endif %}
+    <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
+    <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
+    <p><a href='JavaScript:history.back()'>&lt; 戻る</a></p>
 
   </div>
 </div>

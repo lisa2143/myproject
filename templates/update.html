@@ -11,7 +11,7 @@
   <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'logout' %}" class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
+  <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'signup' %}" class="text2">ユーザー登録</a>
   <a href="{% url 'login' %}" class="text3">ログイン</a>
 {% endif %}
@@ -26,7 +26,8 @@
          {% csrf_token %}
          {{ form.as_p }}
         <button type='submit' class='submit'>{{ object|yesno:'更新,作成'}}</button>
-        <a href="{{ boardmodel.get_absolute_url }}">戻る</a>
+        <!-- <a href="{{ boardmodel.get_absolute_url }}">戻る</a> -->
+        <a href='JavaScript:history.back()'>&lt; 戻る</a>
      </form>
   </div>
   <!-- <div>

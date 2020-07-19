@@ -11,7 +11,7 @@
   <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'logout' %}" class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
+  <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'signup' %}" class="text2">ユーザー登録</a>
   <a href="{% url 'login' %}" class="text3">ログイン</a>
 {% endif %}
@@ -27,7 +27,7 @@
        <p>画像：<input type="file" name="images"></p>
        <input type="hidden" name="author" value="{{ user.username }}">
        <button type="submit">作成</button>
-       <a href="{{ boardmodel.get_absolute_url }}">戻る</a>
+       <a href='JavaScript:history.back()'>&lt; 戻る</a>
     </form>
   {% else %}
   ログインしてください
