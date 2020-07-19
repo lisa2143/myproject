@@ -72,17 +72,34 @@ def goodfunc(request, pk):
     post.save()
     return redirect('list')
 
-def updatefunc(request, pk):
-    if request.method == 'POST':
-        boardmodel = get_object_or_404(Boardmodel, pk=id)
-        CommentForm = CommentForm(request.POST, instance=content)
-        if commentForm.is_valid():
-            commentForm.save()
+def editfunc(request, id):
+    boardmodel = get_object_or_404(Article, pk=id)
+    CommentForm = CommentForm(instance=content)
 
     context = {
-        'content': 'Update content' + str(id),
+        'message': 'Edit Content',
+        'content': contents,
+        'CommentForm': CommentForm,
     }
-    return render(request, 'detail.html', context)
+    return render(request, 'edit.html', context)
+
+# def updatefunc(request, pk):
+#     if request.method == 'POST':
+#         boardmodel = get_object_or_404(Boardmodel, pk=id)
+#         CommentForm = CommentForm(request.POST, instance=content)
+#         if commentForm.is_valid():
+#             commentForm.save()
+#
+#     context = {
+#         'content': 'Update content' + str(id),
+#     }
+#     return render(request, 'detail.html', context)
+
+class UpdateView(generic.edit.UpdateView):
+    template_name = 'update.html'
+    model = BoardModel
+    fields = ('content', 'images')
+    success_url = reverse_lazy('list')
 
 class BoardCreate(CreateView):
     template_name = 'create.html'

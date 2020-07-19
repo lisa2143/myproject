@@ -22,6 +22,14 @@
 <div class="container">
   {% if user.is_authenticated %}
   <div>
+     <form action='{% url "update" boardmodel.id %}' method='post' class='form' enctype="multipart/form-data">
+         {% csrf_token %}
+         {{ form.as_p }}
+        <button type='submit' class='submit'>{{ object|yesno:'更新,作成'}}</button>
+        <a href="{{ boardmodel.get_absolute_url }}">戻る</a>
+     </form>
+  </div>
+  <!-- <div>
      <p>{{ form.content }}</p>
      <p>{{ form.images }}</p>
      <form action='{% url "update" boardmodel.id %}' method='post' class='form' enctype="multipart/form-data">
@@ -29,7 +37,7 @@
          <button type='submit'>保存する</button>
          <a href='{% url "detail" boardmodel.id %}'>戻る</a>
      </form>
-  </div>
+  </div> -->
   {% else %}
   ログインしてください
   {% endif %}
