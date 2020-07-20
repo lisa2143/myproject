@@ -44,10 +44,11 @@
         {% endfor %}
         <hr>
     {% endfor %}
-    <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
-    <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
+    {% if request.user.id == object.author_id %}
+      <a href="{% url 'update' object.pk %}"><button type="submit">編集</button></a>
+      <a href="{% url 'delete' object.pk %}"><button type="submit">削除</button></a>
+    {% endif %}
     <p><a href='JavaScript:history.back()'>&lt; 戻る</a></p>
-
   </div>
 </div>
 {% endblock content %}

@@ -51,15 +51,6 @@ def listfunc(request):
 def detailfunc(request, pk):
     object = BoardModel.objects.get(pk=pk)
     return render(request, 'detail.html', {'object':object})
-    # try:
-    #     object = BoardModel.objects.get(pk=pk)
-    # except models.BoardModel.DoesNotExist:
-    #     raise Http404
-    # if request.method == "POST":
-    #     BoardModel.Comment.objects.create(to=BoardModel, text=request.POST["text"],object=object)
-    # context ={'object':object}
-    # return render(request, 'detail.html', {'object':object})
-
 
 @login_required
 def logoutfunc(request):
@@ -83,18 +74,6 @@ def editfunc(request, id):
     }
     return render(request, 'edit.html', context)
 
-# def updatefunc(request, pk):
-#     if request.method == 'POST':
-#         boardmodel = get_object_or_404(Boardmodel, pk=id)
-#         CommentForm = CommentForm(request.POST, instance=content)
-#         if commentForm.is_valid():
-#             commentForm.save()
-#
-#     context = {
-#         'content': 'Update content' + str(id),
-#     }
-#     return render(request, 'detail.html', context)
-
 class UpdateView(generic.edit.UpdateView):
     template_name = 'update.html'
     model = BoardModel
@@ -105,37 +84,7 @@ class BoardCreate(CreateView):
     template_name = 'create.html'
     model = BoardModel
     fields = ('title', 'content', 'author', 'images')
-    success_url = reverse_lazy('list')
-
-
-# class BoardUpdate(UpdateView):
-    # model = BoardModel
-    # fields = ('content', 'images')
-    # success_url = reverse_lazy('detail')
-    #
-    # def get_success_url(self):
-    #     return reverse('inputs:boardmodel', kwargs={'pk': self.object.id})
-    # model = BoardModel
-    # template_name = 'update.html'
-    # fields = '__all__'
-    # success_url = reverse_lazy('detail')
-    # model = BoardModel
-    # form_class = CommentForm
-    # template_name = 'update.html'
-    # success_url = reverse_lazy('detail')
-    # def form_valid(self, form):
-    #     result = super().form_valid(form)
-    #     messages.success(
-    #         self.request, '「{}」を更新しました'.format(form.instance))
-    #     return result
-    # def get_form(self):
-    #     form = super(BoardUpdate, self).get_form()
-    #     form.fields['content'].object = '内容'
-    #     form.fields['images'].object = '画像'
-    #     return form
-    #
-    # def get_success_url(self):
-    #     return reverse('detail', kwargs={'pk': self.object.id})
+    success_url = reverse_lazy('list') 
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'

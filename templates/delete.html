@@ -25,7 +25,7 @@
     <p>'{{ object.title }}'を削除しますか？</p>
     <form action='' method='post'>{% csrf_token %}
       <button type='submit' class='submit delete'>削除する</button>
-      <a href='JavaScript:history.back()'>&lt; 戻る</a>
+      <a href="{{ boardmodel.get_absolute_url }}">&lt; 戻る</a>
     </form>
   </div>
 </div>
