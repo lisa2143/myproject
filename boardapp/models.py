@@ -7,11 +7,11 @@ from django.urls import reverse
 class BoardModel(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    # author = models.ForeignKey(
-    #     'auth.User',
-    #     on_delete=models.CASCADE,
-    # )
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+    )
+    # author = models.CharField(max_length=100)
     images = models.ImageField(upload_to='')
     good = models.IntegerField(null=True, blank=True, default=0)
 

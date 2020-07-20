@@ -84,7 +84,7 @@ class BoardCreate(CreateView):
     template_name = 'create.html'
     model = BoardModel
     fields = ('title', 'content', 'author', 'images')
-    success_url = reverse_lazy('list') 
+    success_url = reverse_lazy('list')
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
