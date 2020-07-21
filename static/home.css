@@ -4,6 +4,7 @@
   background-color: #9BF9CC;
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
   height: 40px;
 }
 
@@ -11,13 +12,11 @@
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 40px;
-  vertical-align: middle;
 }
 
 .index {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  vertical-align: middle;
   padding-left: 40px;
 }
 
@@ -25,21 +24,18 @@
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 40px;
-  vertical-align: middle;
 }
 
 .text2 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  padding-left: 150px;
-  vertical-align: middle;
+  padding-left: 200px;
 }
 
 .text3 {
   color: #666666;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   padding-left: 40px;
-  vertical-align: middle;
 }
 
 .container {

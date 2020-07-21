@@ -83,8 +83,12 @@ class UpdateView(generic.edit.UpdateView):
 class BoardCreate(CreateView):
     template_name = 'create.html'
     model = BoardModel
-    fields = ('title', 'content', 'author', 'images')
+    fields = ('title', 'content', 'images')
     success_url = reverse_lazy('list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CreateView, self).form_valid(form)
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'

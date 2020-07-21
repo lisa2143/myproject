@@ -25,7 +25,7 @@
      <form action='{% url "update" boardmodel.id %}' method='post' class='form' enctype="multipart/form-data">
          {% csrf_token %}
          {{ form.as_p }}
-        <button type='submit' class='submit'>{{ object|yesno:'更新,作成'}}</button>
+        <button type='submit' class='submit'>更新</button>
         <a href="{{ boardmodel.get_absolute_url }}">&lt; 戻る</a>
      </form>
   </div>
