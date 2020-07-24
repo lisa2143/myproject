@@ -8,6 +8,7 @@ from django.views.generic import CreateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from .forms import CommentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def index(request):
@@ -46,7 +47,24 @@ def loginfunc(request):
 
 def listfunc(request):
     object_list = BoardModel.objects.all()
-    return render(request, 'list.html', {'object_list':object_list})
+    # return render(request, 'list.html', {'object_list':object_list})
+    page_obj = paginate_query(request, object_list, 8)
+    context = {
+        'object_list': page_obj.object_list,
+        'page_obj': page_obj,
+    }
+    return render(request, 'list.html', context)
+
+def paginate_query(request, queryset, count):
+  paginator = Paginator(queryset, count)
+  page = request.GET.get('page')
+  try:
+    page_obj = paginator.page(page)
+  except PageNotAnInteger:
+    page_obj = paginator.page(1)
+  except EmptyPage:
+    page_obj = paginatot.page(paginator.num_pages)
+  return page_obj
 
 def detailfunc(request, pk):
     object = BoardModel.objects.get(pk=pk)
