@@ -17,8 +17,8 @@
   <a href="{% url 'create' %}" class="text2">新規投稿</a>
   <a href="{% url 'logout' %}" class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
-  <form method="GET" action="{% url 'index' %}">
+  <a href="{% url 'list' %}" class="text1">HOME</a>
+  <form class="index" method="GET" action="{% url 'index' %}">
     <input type="text" name="keyword">
     <button type="submit" class="index-text">検索する</button>
   </form>

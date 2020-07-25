@@ -5,8 +5,9 @@
   display: flex;
   align-items: center;
   height: 40px;
-  /* position: fixed; */
   width: 100%;
+  position: fixed;
+  top: 0;
 }
 
 .username {
@@ -46,6 +47,7 @@
 }
 
 .container {
+  margin-top: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #EEFFFF;
