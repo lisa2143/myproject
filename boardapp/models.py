@@ -11,7 +11,6 @@ class BoardModel(models.Model):
         'auth.User',
         on_delete=models.CASCADE,
     )
-    # author = models.CharField(max_length=100)
     images = models.ImageField(upload_to='')
     good = models.IntegerField(null=True, blank=True, default=0)
 

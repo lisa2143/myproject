@@ -9,9 +9,10 @@
 <div class="header">
 {% if user.is_authenticated %}
   <a href="{% url 'list' %}" class="text1">HOME</a>
+  <a href="{% url 'create' %}" class="text2">新規投稿</a>
   <a href="{% url 'logout' %}" class="text3">ログアウト</a>
 {% else %}
-  <a class="text1"　href="{% url 'list' %}">HOME</a>
+  <a href="{% url 'list' %}" class="text1">HOME</a>
   <a href="{% url 'signup' %}" class="text2">ユーザー登録</a>
   <a href="{% url 'login' %}" class="text3">ログイン</a>
 {% endif %}
@@ -19,11 +20,10 @@
 {% endblock header %}
 
 {% block content %}
-  <h1>{{ message }}</h1>
-
-  <form action='{% url "update" boardmodel.id %}' method='post' class='form'>
-    {% csrf_token %}
-    <button type='submit'>保存する</button>
-    <a href="{{ boardmodel.get_absolute_url }}">戻る</a>
-  </form>
-{% endblock content %}
+<div class="container">
+  <div>
+    <p>'{{ object.title }}'を削除しました。</p>
+    <div><a href="{% url 'list' %}">HOMEへ</a></div>
+  </div>
+</div>
+{% endblock content%}

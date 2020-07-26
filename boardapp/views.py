@@ -47,7 +47,6 @@ def loginfunc(request):
 
 def listfunc(request):
     object_list = BoardModel.objects.all()
-    # return render(request, 'list.html', {'object_list':object_list})
     page_obj = paginate_query(request, object_list, 8)
     context = {
         'object_list': page_obj.object_list,
@@ -79,18 +78,9 @@ def goodfunc(request, pk):
     post = BoardModel.objects.get(pk=pk)
     post.good = post.good + 1
     post.save()
-    return redirect('list')
-
-def editfunc(request, id):
-    boardmodel = get_object_or_404(Article, pk=id)
-    CommentForm = CommentForm(instance=content)
-
-    context = {
-        'message': 'Edit Content',
-        'content': contents,
-        'CommentForm': CommentForm,
-    }
-    return render(request, 'edit.html', context)
+    object = BoardModel.objects.get(pk=pk)
+    return render(request, 'detail.html', {'object':object})
+    # return redirect('list')
 
 class UpdateView(generic.edit.UpdateView):
     template_name = 'update.html'
